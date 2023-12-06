@@ -23,6 +23,7 @@ export const createNode = async () => {
   const node = await createLightNode({ defaultBootstrap: true });
   await node.start();
   await waitForRemotePeer(node, [Protocols.LightPush, Protocols.Filter]); // check if 2nd params is required
+  return node;
 };
 
 export const subscribeToIncomingBlogs = async (
