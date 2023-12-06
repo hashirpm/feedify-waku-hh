@@ -55,6 +55,7 @@ export default function Home() {
     <main className="flex justify-center items-center h-screen">
       <div className='max-w-[400px]'>
         <Input type='file' onChange={(e) => setFiles(e.target.files)} />
+        <Input type="text" placeholder="Topic" />
         <Button onClick={handleSend}>
           Upload
         </Button>
