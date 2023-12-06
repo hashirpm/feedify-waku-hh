@@ -24,5 +24,5 @@ export async function storeFiles(files: any) {
     const cid = await client.put(files)
     console.log('stored files with cid:', cid)
     console.log(`https://ipfs.io/ipfs/${cid}/${files[0].name}`)
-    return `https://ipfs.io/ipfs/${cid}`
+    return `https://ipfs.io/ipfs/${cid}/${files[0].name}`
 }
