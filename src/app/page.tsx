@@ -6,7 +6,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Button, Input } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { storeFiles } from '@/lib/helper'
-import { LightNode } from '@waku/sdk'
+import { LightNode, waku } from '@waku/sdk'
 import { createNode, retrieveExistingVotes, sendBlog, subscribeToIncomingBlogs } from '@/lib/waku'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -49,7 +49,7 @@ export default function Home() {
     };
 
     subscribeToVotes();
-  }, [])
+  }, [wakuNode])
 
   return (
     <main className="flex justify-center items-center h-screen">

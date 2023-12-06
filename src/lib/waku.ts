@@ -21,8 +21,7 @@ const decoder = createDecoder(contentTopic);
 export const createNode = async () => {
   // Create and start a Light Node
   const node = await createLightNode({ defaultBootstrap: true });
-  await node.start();
-  await waitForRemotePeer(node, [Protocols.LightPush, Protocols.Filter]); // check if 2nd params is required
+  await waitForRemotePeer(node); // check if 2nd params is required
   return node;
 };
 
@@ -32,6 +31,7 @@ export const subscribeToIncomingBlogs = async (
 ) => {
   console.log("subscribing to incoming blogs");
   const _callback = (blogMessage: DecodedMessage): void => {
+    console.log(blogMessage)
     if (!blogMessage.payload) return;
     const pollMessageObj = BlogData.decode(blogMessage.payload);
     const pollMessage = pollMessageObj.toJSON() as IBlogData;
@@ -41,6 +41,7 @@ export const subscribeToIncomingBlogs = async (
   // Create a filter subscription
   const subscription = await node.filter.createSubscription();
   console.log(subscription)
+
   // Subscribe to content topics and process new messages
   let message = await subscription.subscribe([decoder], _callback)
   console.log("message", message);
