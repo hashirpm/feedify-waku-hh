@@ -44,8 +44,8 @@ export default function Home() {
         return
       }
       console.log("Poll: Listening for votes");
-      await retrieveExistingVotes(wakuNode, "tech");
-      await subscribeToIncomingBlogs(wakuNode, "tech");
+      await retrieveExistingVotes(wakuNode, ["tech", "ibw"]);
+      await subscribeToIncomingBlogs(wakuNode, ["tech", "ibw"]);
     };
 
     subscribeToVotes();
@@ -53,19 +53,25 @@ export default function Home() {
 
   return (
     <main className="flex justify-center items-center h-screen">
-      <div className='max-w-[400px]'>
-        <Input type='file' onChange={(e) => setFiles(e.target.files)} />
+      <div className="max-w-[400px]">
+        <Input type="file" onChange={(e) => setFiles(e.target.files)} />
         <Input type="text" placeholder="Topic" ref={topic} />
-        <Button onClick={handleSend}>
-          Upload
-        </Button>
-        <Button onClick={() => retrieveExistingVotes(wakuNode as LightNode, "tech")}>
+        <Button onClick={handleSend}>Upload</Button>
+        <Button
+          onClick={() =>
+            retrieveExistingVotes(wakuNode as LightNode, ["tech", "ibw"])
+          }
+        >
           Retrive
         </Button>
-        <Button onClick={() => subscribeToIncomingBlogs(wakuNode as LightNode, "tech")}>
+        <Button
+          onClick={() =>
+            subscribeToIncomingBlogs(wakuNode as LightNode, ["tech", "ibw"])
+          }
+        >
           test
         </Button>
       </div>
     </main>
-  )
+  );
 }
