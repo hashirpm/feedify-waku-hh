@@ -11,12 +11,6 @@ import {
 } from "@waku/sdk";
 
 import { IBlogData, BlogData } from "./types";
-// Choose a content topic
-const contentTopic = "/waku-hh-podcast-sub/0";
-
-// Create a message encoder and decoder
-const encoder = createEncoder({ contentTopic });
-const decoder = createDecoder(contentTopic);
 
 export const createNode = async () => {
   // Create and start a Light Node
@@ -27,11 +21,15 @@ export const createNode = async () => {
 
 export const subscribeToIncomingBlogs = async (
   node: LightNode,
+  topic: string
   // callback: any
 ) => {
+  const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
+
+  const decoder = createDecoder(contentTopic);
   console.log("subscribing to incoming blogs");
   const _callback = (blogMessage: DecodedMessage): void => {
-    console.log(blogMessage)
+    console.log(blogMessage);
     if (!blogMessage.payload) return;
     const pollMessageObj = BlogData.decode(blogMessage.payload);
     const pollMessage = pollMessageObj.toJSON() as IBlogData;
@@ -40,14 +38,24 @@ export const subscribeToIncomingBlogs = async (
 
   // Create a filter subscription
   const subscription = await node.filter.createSubscription();
-  console.log(subscription)
+  console.log(subscription);
 
   // Subscribe to content topics and process new messages
-  let message = await subscription.subscribe([decoder], _callback)
+  let message = await subscription.subscribe([decoder], _callback);
   console.log("message", message);
 };
 
-export const sendBlog = async (node: LightNode, newBlog: IBlogData) => {
+export const sendBlog = async (
+  node: LightNode,
+  newBlog: IBlogData,
+  topic: string
+) => {
+  // Choose a content topic
+  const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
+
+  // Create a message encoder and decoder
+  const encoder = createEncoder({ contentTopic });
+
   const blogMessage = BlogData.create(newBlog);
   console.log("blogMessage", blogMessage);
   // Serialise the message using Protobuf
@@ -55,16 +63,21 @@ export const sendBlog = async (node: LightNode, newBlog: IBlogData) => {
   console.log("serialisedMessage", serialisedMessage);
 
   // Send the message using Light Push
-  await node.lightPush.send(encoder, {
-    payload: serialisedMessage,
-  }).then((res) => console.log(res))
+  await node.lightPush
+    .send(encoder, {
+      payload: serialisedMessage,
+    })
+    .then((res) => console.log(res));
 };
-
 
 export const retrieveExistingVotes = async (
   waku: LightNode,
+  topic: string
   // callback: (pollMessage: IBlogData) => void,
 ) => {
+  const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
+
+  const decoder = createDecoder(contentTopic);
   const _callback = (wakuMessage: DecodedMessage): void => {
     if (!wakuMessage.payload) return;
     const pollMessageObj = BlogData.decode(wakuMessage.payload);
