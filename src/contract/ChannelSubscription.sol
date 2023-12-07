@@ -17,8 +17,6 @@ contract ChannelSubscription {
     // Array to store all channels
     Channel[] public channels;
 
-    // Mapping to track channels owned by each address
-    mapping(address => Channel[]) private channelsByOwner;
 
     // Mapping to track channels subscribed by each address
     mapping(address => Channel[]) private channelsBySubscriber;
@@ -58,18 +56,35 @@ contract ChannelSubscription {
         });
 
         channels.push(newChannel);
-        channelsByOwner[msg.sender].push(newChannel);
 
         emit ChannelCreated(channelId, _name, msg.sender);
     }
 
-    // Function to get channels owned by a specific address
-    function getChannelsByOwner(
-        address _owner
-    ) external view returns (Channel[] memory) {
-        return channelsByOwner[_owner];
-    }
+   
+// Function to get channels owned by a specific address
+    function getChannelsByOwner(address _owner)
+        external
+        view
+        returns (Channel[] memory)
+    {
+        Channel[] memory ownerChannels = new Channel[](channels.length);
+        uint256 count = 0;
 
+        for (uint256 i = 0; i < channels.length; i++) {
+            if (channels[i].owner == _owner) {
+                ownerChannels[count] = channels[i];
+                count++;
+            }
+        }
+
+        // Resize the array to remove any empty slots
+        assembly {
+            mstore(ownerChannels, count)
+        }
+
+        return ownerChannels;
+    }
+    
     // Function to get channels subscribed by a specific address
     function getChannelsBySubscriber(
         address _subscriber
@@ -95,6 +110,7 @@ contract ChannelSubscription {
         channel.earnings += msg.value;
 
         channelsBySubscriber[msg.sender].push(channel);
+        
 
         // Emit event
         emit ChannelSubscribed(_channelId, msg.sender);
