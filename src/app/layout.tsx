@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import '@rainbow-me/rainbowkit/styles.css';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
+import { arbitrum, goerli, mainnet, optimism, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import Navbar from '@/components/navbar';
@@ -17,10 +17,7 @@ import Navbar from '@/components/navbar';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
+    polygonMumbai
   ],
   [publicProvider()]
 );

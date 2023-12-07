@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { useRef, useState } from "react";
 import { storeFiles } from "@/lib/helper";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { ABI, CONTRACT_ADDRESS } from "@/lib/const";
 
 export default function MyChannels() {
@@ -22,9 +22,10 @@ export default function MyChannels() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const name = useRef<any>()
     const description = useRef<any>()
+    const amount = useRef<any>()
     const [file, setFile] = useState<any>()
 
-    const getOrdersByGigId = async () => {
+    const createChannel = async (logoUrl: string) => {
         //@ts-ignore
         const provider = new ethers.providers.Web3Provider(window.ethereum as ethers.providers.ExternalProvider)
 
@@ -37,7 +38,23 @@ export default function MyChannels() {
         // Get the signer from the provider
         const signer = provider.getSigner();
         // Create a transaction object for the mint function
-        const orders = await contract.connect(signer).getOrdersByGigId()
+        console.log(name.current.value)
+        console.log(description.current.value)
+        console.log(amount.current.value)
+        await contract.connect(signer).createChannel(
+            name.current.value,
+            description.current.value,
+            ethers.utils.parseEther(amount.current.value),
+            logoUrl
+        ).then(async (res: any) => {
+            await res.wait();
+            toast({
+                title: 'Channel Created',
+                status: 'success',
+                duration: 2000,
+                isClosable: false,
+            })
+        });
     }
 
     const handleCreateChannel = async () => {
@@ -49,6 +66,7 @@ export default function MyChannels() {
             isClosable: false,
         })
         // let link = await storeFiles(file)
+        let link = "https://ipfs.io/ipfs/bafybeiejfnkkayxccsf6bsm537qbok7i5crrmqnkdzu7iqbzgqcsqflngu/Black.png"
         toast({
             title: 'Logo Uploaded',
             status: 'success',
@@ -61,6 +79,7 @@ export default function MyChannels() {
             duration: 2000,
             isClosable: false,
         })
+        await createChannel(link)
     }
 
 
@@ -76,9 +95,9 @@ export default function MyChannels() {
                         <ModalHeader>Create Channel</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                            <Input placeholder="Channel Name" type="text" />
-                            <Input placeholder="Channel Description" type="text" className="mt-4" />
-                            <Input placeholder="Subscription Price" type="number" className="mt-4" />
+                            <Input placeholder="Channel Name" type="text" ref={name} />
+                            <Input placeholder="Channel Description" type="text" className="mt-4" ref={description} />
+                            <Input placeholder="Subscription Price in MATIC" type="number" className="mt-4" ref={amount} />
                             <div className="upload-btn-wrapper mt-4 cursor-pointer">
                                 <Button className="btn">Upload Logo</Button>
                                 <Input type="file" name="myfile" onChange={(e) => setFile(e.target.files)} />

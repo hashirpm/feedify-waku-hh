@@ -7,6 +7,7 @@ contract ChannelSubscription {
         uint256 channelId;
         string name;
         string description;
+        string logoUrl;
         address owner;
         uint256 subscriptionAmount;
         uint256 totalSubscriptions;
@@ -36,15 +37,19 @@ contract ChannelSubscription {
     );
 
     // Function to create a new channel
-    function createChannel(string memory _name, string memory _description, uint256 _subscriptionAmount)
-        external
-    {
+    function createChannel(
+        string memory _name,
+        string memory _description,
+        uint256 _subscriptionAmount,
+        string memory _logoUrl
+    ) external {
         uint256 channelId = channels.length;
 
         Channel memory newChannel = Channel({
             channelId: channelId,
             name: _name,
-            description: _description, 
+            description: _description,
+            logoUrl: _logoUrl,
             owner: msg.sender,
             subscriptionAmount: _subscriptionAmount,
             totalSubscriptions: 0,
@@ -58,20 +63,16 @@ contract ChannelSubscription {
     }
 
     // Function to get channels owned by a specific address
-    function getChannelsByOwner(address _owner)
-        external
-        view
-        returns (uint256[] memory)
-    {
+    function getChannelsByOwner(
+        address _owner
+    ) external view returns (uint256[] memory) {
         return channelsByOwner[_owner];
     }
 
     // Function to get channels subscribed by a specific address
-    function getChannelsBySubscriber(address _subscriber)
-        external
-        view
-        returns (uint256[] memory)
-    {
+    function getChannelsBySubscriber(
+        address _subscriber
+    ) external view returns (uint256[] memory) {
         return channelsBySubscriber[_subscriber];
     }
 
