@@ -21,28 +21,33 @@ export const createNode = async () => {
 
 export const subscribeToIncomingBlogs = async (
   node: LightNode,
-  topic: string
+  topics: string[]
   // callback: any
 ) => {
+for (const topic of topics) {
   const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
 
   const decoder = createDecoder(contentTopic);
-  console.log("subscribing to incoming blogs");
+  console.log("subscribing to incoming blogs for topic", topic);
+
   const _callback = (blogMessage: DecodedMessage): void => {
     console.log(blogMessage);
     if (!blogMessage.payload) return;
     const pollMessageObj = BlogData.decode(blogMessage.payload);
     const pollMessage = pollMessageObj.toJSON() as IBlogData;
     console.log("decoded ", pollMessage);
+    // You can invoke the callback function if needed
+    // callback(pollMessage);
   };
-
   // Create a filter subscription
   const subscription = await node.filter.createSubscription();
-  console.log(subscription);
 
   // Subscribe to content topics and process new messages
   let message = await subscription.subscribe([decoder], _callback);
   console.log("message", message);
+}
+
+
 };
 
 export const sendBlog = async (
@@ -72,21 +77,22 @@ export const sendBlog = async (
 
 export const retrieveExistingVotes = async (
   waku: LightNode,
-  topic: string
+  topics: string[]
   // callback: (pollMessage: IBlogData) => void,
 ) => {
-  const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
+ for (const topic of topics) {
+   const contentTopic = "/waku-hh-podcast-sub/0/" + topic;
 
-  const decoder = createDecoder(contentTopic);
-  const _callback = (wakuMessage: DecodedMessage): void => {
-    if (!wakuMessage.payload) return;
-    const pollMessageObj = BlogData.decode(wakuMessage.payload);
-    const pollMessage = pollMessageObj.toJSON() as IBlogData;
-    console.log("decoded ", pollMessage);
-    // callback(pollMessage);
-  };
-
-  // Query the Store peer
-  let result = await waku.store.queryWithOrderedCallback([decoder], _callback);
-  console.log("result", result);
+   const decoder = createDecoder(contentTopic);
+   const _callback = (wakuMessage: DecodedMessage): void => {
+     if (!wakuMessage.payload) return;
+     const pollMessageObj = BlogData.decode(wakuMessage.payload);
+     const pollMessage = pollMessageObj.toJSON() as IBlogData;
+     console.log("decoded ", pollMessage);
+     // callback(pollMessage);
+   };
+   // Query the Store peer
+   let result = await waku.store.queryWithOrderedCallback([decoder], _callback);
+   console.log("result", result);
+ }
 };
