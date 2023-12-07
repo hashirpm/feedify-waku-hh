@@ -109,6 +109,8 @@ contract ChannelSubscription {
         channel.totalSubscriptions++;
         channel.earnings += msg.value;
 
+        channels[_channelId]=channel;
+
         channelsBySubscriber[msg.sender].push(channel);
         
 
