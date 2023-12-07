@@ -60,7 +60,7 @@ export const sendBlog = async (
 
   // Create a message encoder and decoder
   const encoder = createEncoder({ contentTopic });
-
+  console.log({ contentTopic })
   const blogMessage = BlogData.create(newBlog);
   console.log("blogMessage", blogMessage);
   // Serialise the message using Protobuf

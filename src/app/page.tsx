@@ -47,9 +47,9 @@ export default function Home() {
       console.log("Waku node not stared")
       return
     }
-    console.log("Poll: Listening for votes");
 
     let channelIds: string[] = data.map((channel: Channel) => Number(channel.channelId).toString());
+    console.log({ channelIds })
 
     await retrieveExistingVotes(wakuNode, channelIds);
     await subscribeToIncomingBlogs(wakuNode, channelIds);
