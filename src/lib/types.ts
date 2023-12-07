@@ -8,9 +8,10 @@ export interface IBlogData {
 }
 
 // Create a message structure using Protobuf
-export const BlogData = new protobuf.Type("BlogData").add(
-  new protobuf.Field("ipfsHash", 1, "string")
-);
+export const BlogData = new protobuf.Type("BlogData")
+  .add(new protobuf.Field("title", 1, "string"))
+  .add(new protobuf.Field("description", 2, "string"))
+  .add(new protobuf.Field("image", 3, "string"));;
 
 
 export type Channel = {
