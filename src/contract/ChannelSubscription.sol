@@ -8,7 +8,7 @@ contract ChannelSubscription {
         string name;
         string description;
         string logoUrl;
-        address owner;
+        address payable owner;
         uint256 subscriptionAmount;
         uint256 totalSubscriptions;
         uint256 earnings;
@@ -41,7 +41,8 @@ contract ChannelSubscription {
         string memory _name,
         string memory _description,
         uint256 _subscriptionAmount,
-        string memory _logoUrl
+        string memory _logoUrl,
+        address payable _owner
     ) external {
         uint256 channelId = channels.length;
 
@@ -50,7 +51,7 @@ contract ChannelSubscription {
             name: _name,
             description: _description,
             logoUrl: _logoUrl,
-            owner: msg.sender,
+            owner: _owner,
             subscriptionAmount: _subscriptionAmount,
             totalSubscriptions: 0,
             earnings: 0
@@ -83,9 +84,11 @@ contract ChannelSubscription {
         Channel storage channel = channels[_channelId];
 
         require(
-            msg.value < channel.subscriptionAmount,
+            msg.value > channel.subscriptionAmount,
             "Incorrect subscription amount"
         );
+
+        channel.owner.transfer(channel.subscriptionAmount);
 
         // Update channel data
         channel.totalSubscriptions++;
@@ -96,8 +99,8 @@ contract ChannelSubscription {
         // Emit event
         emit ChannelSubscribed(_channelId, msg.sender);
     }
-    
-     // Function to get details for all channels
+
+    // Function to get details for all channels
     function getAllChannels() external view returns (Channel[] memory) {
         return channels;
     }

@@ -1,32 +1,67 @@
-import { Card, CardHeader, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button } from '@chakra-ui/react'
+import { ABI, CONTRACT_ADDRESS } from '@/lib/const'
+import { Channel } from '@/lib/types'
+import { Card, CardHeader, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button, useToast } from '@chakra-ui/react'
+import { ethers } from 'ethers'
 import Image from 'next/image'
 
-export default function ChannelCard() {
+
+export default function ChannelCard(props: Channel) {
+
+    const toast = useToast()
+
+    const subscribeChannel = async () => {
+        //@ts-ignore
+        const provider = new ethers.providers.Web3Provider(window.ethereum as ethers.providers.ExternalProvider)
+
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider)
+        console.log({ contract })
+
+        //@ts-ignore
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Get the signer from the provider
+        const signer = provider.getSigner();
+        // Create a transaction object for the mint function
+        await contract.connect(signer).subscribeChannel(props.channelId).then(async (res: any) => {
+            toast({
+                title: 'Subscribing Channel',
+                status: 'loading',
+                duration: 2000,
+                isClosable: false,
+            })
+            await res.wait();
+            toast({
+                title: 'Channel Subscribes',
+                status: 'success',
+                duration: 2000,
+                isClosable: false,
+            })
+        });
+    }
+
     return (
         <Card maxW='sm'>
             <CardBody>
                 <Image
-                    src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+                    src={props.logoUrl}
                     alt='Green double couch with wooden legs'
                     className='rounded-lg aspect-square'
                     width={400}
                     height={300}
                 />
                 <Stack mt='6' spacing='3'>
-                    <Heading size='md'>Living room Sofa</Heading>
+                    <Heading size='md'>{props.name}</Heading>
                     <Text>
-                        This sofa is perfect for modern tropical spaces, baroque inspired
-                        spaces, earthy toned spaces and for people who love a chic design with a
-                        sprinkle of vintage design.
+                        {props.description}
                     </Text>
                     <Text color='blue.600' fontSize='2xl'>
-                        $450
+                        {Number(props.subscriptionAmount) / 1e18} MATIC
                     </Text>
                 </Stack>
             </CardBody>
             <Divider />
             <CardFooter>
-                <Button className="bg-[#2b6cb0] text-white w-full" >
+                <Button className="bg-[#2b6cb0] text-white w-full" onClick={subscribeChannel} >
                     Subscribe
                 </Button>
             </CardFooter>

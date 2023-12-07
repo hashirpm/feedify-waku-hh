@@ -48,47 +48,6 @@ export const ABI = [
     {
         "inputs": [
             {
-                "internalType": "string",
-                "name": "_name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_description",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_subscriptionAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "_logoUrl",
-                "type": "string"
-            }
-        ],
-        "name": "createChannel",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_channelId",
-                "type": "uint256"
-            }
-        ],
-        "name": "subscribeChannel",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
@@ -117,7 +76,7 @@ export const ABI = [
                 "type": "string"
             },
             {
-                "internalType": "address",
+                "internalType": "address payable",
                 "name": "owner",
                 "type": "address"
             },
@@ -138,6 +97,39 @@ export const ABI = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_subscriptionAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_logoUrl",
+                "type": "string"
+            },
+            {
+                "internalType": "address payable",
+                "name": "_owner",
+                "type": "address"
+            }
+        ],
+        "name": "createChannel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -167,7 +159,7 @@ export const ABI = [
                         "type": "string"
                     },
                     {
-                        "internalType": "address",
+                        "internalType": "address payable",
                         "name": "owner",
                         "type": "address"
                     },
@@ -228,7 +220,7 @@ export const ABI = [
                         "type": "string"
                     },
                     {
-                        "internalType": "address",
+                        "internalType": "address payable",
                         "name": "owner",
                         "type": "address"
                     },
@@ -289,7 +281,7 @@ export const ABI = [
                         "type": "string"
                     },
                     {
-                        "internalType": "address",
+                        "internalType": "address payable",
                         "name": "owner",
                         "type": "address"
                     },
@@ -315,6 +307,19 @@ export const ABI = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_channelId",
+                "type": "uint256"
+            }
+        ],
+        "name": "subscribeChannel",
+        "outputs": [],
+        "stateMutability": "payable",
         "type": "function"
     }
 ]
