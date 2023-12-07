@@ -1,5 +1,4 @@
-'use client'
-
+"use client"
 import './globals.css'
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -9,6 +8,7 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import Navbar from '@/components/navbar';
 
 // export const metadata = {
 //   title: 'Create Next App',
@@ -48,8 +48,11 @@ export default function RootLayout({
       <body>
         <WagmiConfig config={wagmiConfig}>
           <RainbowKitProvider chains={chains}>
-            <CacheProvider>
-              <ChakraProvider>{children}</ChakraProvider>
+            <CacheProvider >
+              <ChakraProvider >
+                <Navbar />
+                {children}
+              </ChakraProvider>
             </CacheProvider>
           </RainbowKitProvider>
         </WagmiConfig>

@@ -8,6 +8,14 @@ const nextConfig = {
   env: {
     WEB3_STORAGE_KEY: process.env.WEB3_STORAGE_KEY,
     PROJECT_ID: process.env.PROJECT_ID,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "**",
+        protocol: "https"
+      }
+    ]
   }
 }
 
