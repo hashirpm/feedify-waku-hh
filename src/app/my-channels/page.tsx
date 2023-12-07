@@ -47,6 +47,12 @@ export default function MyChannels() {
             ethers.utils.parseEther(amount.current.value),
             logoUrl
         ).then(async (res: any) => {
+            toast({
+                title: 'Creating Channel',
+                status: 'loading',
+                duration: 2000,
+                isClosable: false,
+            })
             await res.wait();
             toast({
                 title: 'Channel Created',
@@ -73,12 +79,7 @@ export default function MyChannels() {
             duration: 2000,
             isClosable: false,
         })
-        toast({
-            title: 'Creating Channel',
-            status: 'loading',
-            duration: 2000,
-            isClosable: false,
-        })
+
         await createChannel(link)
     }
 
@@ -99,7 +100,7 @@ export default function MyChannels() {
                             <Input placeholder="Channel Description" type="text" className="mt-4" ref={description} />
                             <Input placeholder="Subscription Price in MATIC" type="number" className="mt-4" ref={amount} />
                             <div className="upload-btn-wrapper mt-4 cursor-pointer">
-                                <Button className="btn">Upload Logo</Button>
+                                <Button className="btn">{file != null ? file[0].name : "Upload Logo"}</Button>
                                 <Input type="file" name="myfile" onChange={(e) => setFile(e.target.files)} />
                             </div>
                         </ModalBody>
