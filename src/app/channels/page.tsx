@@ -1,8 +1,7 @@
 "use client"
 import ChannelCard from "@/components/channel-card";
 import ChannelCardSkeleton from "@/components/channel-card-skeleton";
-import { CONTRACT_ADDRESS } from "@/const/value";
-import { ABI } from "@/lib/const";
+import { ABI, CONTRACT_ADDRESS } from "@/lib/const";
 import { Button } from "@chakra-ui/react";
 import { ethers } from "ethers";
 
@@ -16,11 +15,11 @@ export default function Channels() {
         console.log({ contract })
 
         //@ts-ignore
-        // await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Get the signer from the provider
         // Create a transaction object for the mint function
-        let data = await contract.getChannelsByOwner("0x06C41df2358deD2Fd891522f9Da75eca2150c10B")
+        let data = await contract.getAllChannels()
         console.log({ data })
     }
 
