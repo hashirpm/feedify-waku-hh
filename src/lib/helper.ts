@@ -1,7 +1,6 @@
 import { Web3Storage } from "web3.storage";
-import { CONTRACT_ADDRESS } from "@/const/value";
-import { abi } from "@/const/contract-abi";
 import { ethers, utils } from "ethers";
+import { ABI, CONTRACT_ADDRESS } from "./const";
 
 let provider;
 let contract: ethers.Contract;
@@ -43,7 +42,7 @@ if (typeof window !== "undefined") {
     window.ethereum as ethers.providers.ExternalProvider
   );
 
-  contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+  contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 
   // Get the signer from the provider
   signer = provider.getSigner();

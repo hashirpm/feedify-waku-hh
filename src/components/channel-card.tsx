@@ -22,7 +22,9 @@ export default function ChannelCard(props: Channel) {
         // Get the signer from the provider
         const signer = provider.getSigner();
         // Create a transaction object for the mint function
-        await contract.connect(signer).subscribeChannel(props.channelId).then(async (res: any) => {
+        console.log(Number(props.subscriptionAmount).toString())
+        console.log(ethers.utils.parseEther(Number(props.subscriptionAmount).toString()))
+        await contract.connect(signer).subscribeChannel(Number(props.channelId), { value: (Number(props.subscriptionAmount) + 100000000000000).toString() }).then(async (res: any) => {
             toast({
                 title: 'Subscribing Channel',
                 status: 'loading',
@@ -31,7 +33,7 @@ export default function ChannelCard(props: Channel) {
             })
             await res.wait();
             toast({
-                title: 'Channel Subscribes',
+                title: `${props.name} Channel Subscribed`,
                 status: 'success',
                 duration: 2000,
                 isClosable: false,

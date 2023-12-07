@@ -11,19 +11,25 @@ import {
     ModalBody,
     ModalCloseButton,
 } from '@chakra-ui/react'
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { storeFiles } from "@/lib/helper";
 import { BigNumber, ethers } from "ethers";
 import { ABI, CONTRACT_ADDRESS } from "@/lib/const";
+import { useAccount } from "wagmi";
+import ChannelCardSkeleton from "@/components/channel-card-skeleton";
+import { Channel, MyChannel } from "@/lib/types";
+import MyChannelCard from "@/components/my-channel-card";
 
 export default function MyChannels() {
 
     const toast = useToast()
+    const account = useAccount()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const name = useRef<any>()
     const description = useRef<any>()
     const amount = useRef<any>()
     const [file, setFile] = useState<any>()
+    const [channels, setChannels] = useState<MyChannel[]>([])
 
     const createChannel = async (logoUrl: string) => {
         //@ts-ignore
@@ -45,7 +51,8 @@ export default function MyChannels() {
             name.current.value,
             description.current.value,
             ethers.utils.parseEther(amount.current.value),
-            logoUrl
+            logoUrl,
+            account.address
         ).then(async (res: any) => {
             toast({
                 title: 'Creating Channel',
@@ -71,8 +78,8 @@ export default function MyChannels() {
             duration: 2000,
             isClosable: false,
         })
-        // let link = await storeFiles(file)
-        let link = "https://ipfs.io/ipfs/bafybeiejfnkkayxccsf6bsm537qbok7i5crrmqnkdzu7iqbzgqcsqflngu/Black.png"
+        let link = await storeFiles(file)
+        // let link = "https://ipfs.io/ipfs/bafybeiejfnkkayxccsf6bsm537qbok7i5crrmqnkdzu7iqbzgqcsqflngu/Black.png"
         toast({
             title: 'Logo Uploaded',
             status: 'success',
@@ -82,6 +89,22 @@ export default function MyChannels() {
 
         await createChannel(link)
     }
+
+    const getChannelsByOwner = async () => {
+        //@ts-ignore
+        const provider = new ethers.providers.Web3Provider(window.ethereum as ethers.providers.ExternalProvider)
+
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider)
+        console.log({ contract })
+        let data = await contract.getChannelsByOwner(account.address)
+        setChannels(data)
+
+        console.log({ data })
+    }
+
+    useEffect(() => {
+        getChannelsByOwner()
+    }, [])
 
 
     return (
@@ -109,6 +132,31 @@ export default function MyChannels() {
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
+            </div>
+            <div className="px-4">
+                <div className="grid grid-cols-5 gap-4">
+                    {
+                        channels.length > 0 ?
+                            channels.map((item, index) => (
+                                <MyChannelCard
+                                    name={item.name}
+                                    description={item.description}
+                                    logoUrl={item.logoUrl}
+                                    subscriptionAmount={item.subscriptionAmount}
+                                    channelId={item.channelId}
+                                    owner={item.owner}
+                                    earning={item.earning}
+                                    totalSubscriptions={item.totalSubscriptions}
+                                    key={index}
+                                />
+                            ))
+                            :
+                            [1, 1, 1, 1].map((item, index) => (
+                                <ChannelCardSkeleton key={index} />
+                            ))
+                    }
+                </div>
+
             </div>
         </div>
     )

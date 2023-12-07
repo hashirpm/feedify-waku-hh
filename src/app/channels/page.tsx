@@ -39,6 +39,7 @@ export default function Channels() {
                                 logoUrl={item.logoUrl}
                                 subscriptionAmount={item.subscriptionAmount}
                                 channelId={item.channelId}
+                                owner={item.owner}
                                 key={index}
                             />
                         ))

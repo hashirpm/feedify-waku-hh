@@ -21,8 +21,8 @@ export default function Home() {
     <div className="px-4 max-w-screen-xl mx-auto">
       <div className="grid grid-cols-4 gap-4">
         {
-          [1, 1, 1, 1, 1, 1].map(() => (
-            <FeedCardSkeleton />
+          [1, 1, 1, 1, 1, 1].map((item, index) => (
+            <FeedCardSkeleton key={index} />
           ))
         }
       </div>

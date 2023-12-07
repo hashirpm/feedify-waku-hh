@@ -17,4 +17,16 @@ export type Channel = {
   subscriptionAmount: BigNumber
   logoUrl: string
   channelId: BigNumber
+  owner: string
+}
+
+export type MyChannel = {
+  name: string;
+  description: string;
+  subscriptionAmount: BigNumber
+  logoUrl: string
+  channelId: BigNumber
+  owner: string
+  earning: BigNumber
+  totalSubscriptions: BigNumber
 }

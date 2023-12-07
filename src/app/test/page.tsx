@@ -44,8 +44,8 @@ export default function Home() {
                 return
             }
             console.log("Poll: Listening for votes");
-            await retrieveExistingVotes(wakuNode, "tech");
-            await subscribeToIncomingBlogs(wakuNode, "tech");
+            await retrieveExistingVotes(wakuNode, ["tech"]);
+            await subscribeToIncomingBlogs(wakuNode, ["tech"]);
         };
 
         subscribeToVotes();
@@ -59,10 +59,10 @@ export default function Home() {
                 <Button onClick={handleSend}>
                     Upload
                 </Button>
-                <Button onClick={() => retrieveExistingVotes(wakuNode as LightNode, "tech")}>
+                <Button onClick={() => retrieveExistingVotes(wakuNode as LightNode, ["tech"])}>
                     Retrive
                 </Button>
-                <Button onClick={() => subscribeToIncomingBlogs(wakuNode as LightNode, "tech")}>
+                <Button onClick={() => subscribeToIncomingBlogs(wakuNode as LightNode, ["tech"])}>
                     test
                 </Button>
             </div>

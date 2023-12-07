@@ -23,6 +23,7 @@
     "protobufjs": "^7.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.33.0",
     "viem": "~1.19.11",
     "wagmi": "~1.4.8",
     "web3.storage": "^4.5.5"
