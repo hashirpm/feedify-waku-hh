@@ -29,13 +29,7 @@ export default function Home() {
     })();
   }, [wakuNode]);
 
-  if (!account) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <ConnectButton />
-      </div>
-    )
-  }
+
 
   const subscribeToVotes = async () => {
     //@ts-ignore
@@ -123,6 +117,15 @@ export default function Home() {
   useEffect(() => {
     subscribeToVotes();
   }, [wakuNode])
+
+
+  if (!account) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ConnectButton />
+      </div>
+    )
+  }
 
   return (
     <div className="px-4 max-w-screen-xl mx-auto">

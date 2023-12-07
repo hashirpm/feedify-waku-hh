@@ -13,48 +13,48 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-    const [files, setFiles] = useState<any>()
-    const topic = useRef<any>()
-    const [wakuNode, setWakuNode] = useState<LightNode | null>(null);
-    useEffect(() => {
-        if (wakuNode) return;
+    // const [files, setFiles] = useState<any>()
+    // const topic = useRef<any>()
+    // const [wakuNode, setWakuNode] = useState<LightNode | null>(null);
+    // useEffect(() => {
+    //     if (wakuNode) return;
 
-        (async () => {
-            console.log("starting node");
-            const node = await createNode();
-            console.log("node started");
-            setWakuNode(node);
-        })();
-    }, [wakuNode]);
+    //     (async () => {
+    //         console.log("starting node");
+    //         const node = await createNode();
+    //         console.log("node started");
+    //         setWakuNode(node);
+    //     })();
+    // }, [wakuNode]);
 
-    const handleSend = async () => {
-        if (wakuNode == null) {
-            console.log("Waku node not stared")
-            return
-        }
-        let link = await storeFiles(files)
-        let wakuRes = await sendBlog(wakuNode, { ipfsHash: link }, topic.current.value)
-        console.log({ wakuRes })
-    }
+    // const handleSend = async () => {
+    //     if (wakuNode == null) {
+    //         console.log("Waku node not stared")
+    //         return
+    //     }
+    //     let link = await storeFiles(files)
+    //     let wakuRes = await sendBlog(wakuNode, { ipfsHash: link }, topic.current.value)
+    //     console.log({ wakuRes })
+    // }
 
-    useEffect(() => {
-        const subscribeToVotes = async () => {
-            if (wakuNode == null) {
-                console.log("Waku node not stared")
-                return
-            }
-            console.log("Poll: Listening for votes");
-            await retrieveExistingVotes(wakuNode, ["tech"]);
-            await subscribeToIncomingBlogs(wakuNode, ["tech"]);
-        };
+    // useEffect(() => {
+    //     const subscribeToVotes = async () => {
+    //         if (wakuNode == null) {
+    //             console.log("Waku node not stared")
+    //             return
+    //         }
+    //         console.log("Poll: Listening for votes");
+    //         await retrieveExistingVotes(wakuNode, ["tech"]);
+    //         await subscribeToIncomingBlogs(wakuNode, ["tech"]);
+    //     };
 
-        subscribeToVotes();
-    }, [wakuNode])
+    //     subscribeToVotes();
+    // }, [wakuNode])
 
     return (
         <main className="flex justify-center items-center h-screen">
             <div className='max-w-[400px]'>
-                <Input type='file' onChange={(e) => setFiles(e.target.files)} />
+                {/* <Input type='file' onChange={(e) => setFiles(e.target.files)} />
                 <Input type="text" placeholder="Topic" ref={topic} />
                 <Button onClick={handleSend}>
                     Upload
@@ -64,7 +64,7 @@ export default function Home() {
                 </Button>
                 <Button onClick={() => subscribeToIncomingBlogs(wakuNode as LightNode, ["tech"])}>
                     test
-                </Button>
+                </Button> */}
             </div>
         </main>
     )
