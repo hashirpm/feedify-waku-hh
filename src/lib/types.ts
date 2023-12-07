@@ -30,6 +30,12 @@ export type MyChannel = {
   logoUrl: string
   channelId: BigNumber
   owner: string
-  earning: BigNumber
+  earnings: BigNumber
   totalSubscriptions: BigNumber
+}
+
+export type Post = {
+  title: string,
+  description: string
+  image: string
 }

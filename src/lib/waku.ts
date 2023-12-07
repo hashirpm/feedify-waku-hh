@@ -24,6 +24,7 @@ export const subscribeToIncomingBlogs = async (
   topics: string[]
   // callback: any
 ) => {
+
   for (const topic of topics) {
     const contentTopic = "/waku-hh-podcast-sub/channel/" + topic;
 

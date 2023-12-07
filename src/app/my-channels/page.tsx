@@ -145,7 +145,7 @@ export default function MyChannels() {
                                     subscriptionAmount={item.subscriptionAmount}
                                     channelId={item.channelId}
                                     owner={item.owner}
-                                    earning={item.earning}
+                                    earnings={item.earnings}
                                     totalSubscriptions={item.totalSubscriptions}
                                     key={index}
                                 />

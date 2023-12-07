@@ -1,26 +1,20 @@
+import { Post } from '@/lib/types'
 import { Card, CardHeader, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button } from '@chakra-ui/react'
+import Image from 'next/image'
 
-export default function FeedCard() {
+
+
+export default function FeedCard(props: Post) {
     return (
         <Card >
             <CardBody>
+                <Image src={props.image} alt="" width={300} height={400} />
                 <h1 className="text-xl font-semibold">
-                    Title
+                    {props.title}
                 </h1>
                 <p className="text-sm">
-                    Description
+                    {props.description}
                 </p>
-                <p className="text-right text-md">
-                    0.5 ETH
-                </p>
-                <div className="flex justify-end gap-2">
-                    <Button variant="bordered" color="primary">
-                        Message
-                    </Button>
-                    <Button color="primary" >
-                        Order
-                    </Button>
-                </div>
             </CardBody>
         </Card>
     )

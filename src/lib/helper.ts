@@ -103,3 +103,11 @@ export const subscribeChannel = async (channelId: Number, amount: string) => {
     return { status: false };
   }
 };
+
+
+export function pushIfNotPresent<T>(arr: T[], obj: T): T[] {
+  if (!arr.includes(obj)) {
+    arr.push(obj);
+  }
+  return arr
+}
