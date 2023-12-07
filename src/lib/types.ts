@@ -2,7 +2,9 @@ import { BigNumber } from "ethers";
 import protobuf from "protobufjs";
 
 export interface IBlogData {
-  ipfsHash: string;
+  title: string;
+  description: string;
+  image: string;
 }
 
 // Create a message structure using Protobuf

@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xdBbf6c7Aa7FaFfc9e855D90A3B5a65A5D9b44978"
+export const CONTRACT_ADDRESS = "0xb386C6E27553Ba66Db25568aF6f3E77B8fc0deCA"
 
 export const ABI = [
     {
@@ -44,6 +44,52 @@ export const ABI = [
         ],
         "name": "ChannelSubscribed",
         "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_subscriptionAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_logoUrl",
+                "type": "string"
+            },
+            {
+                "internalType": "address payable",
+                "name": "_owner",
+                "type": "address"
+            }
+        ],
+        "name": "createChannel",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_channelId",
+                "type": "uint256"
+            }
+        ],
+        "name": "subscribeChannel",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
     },
     {
         "inputs": [
@@ -97,39 +143,6 @@ export const ABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_description",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_subscriptionAmount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "_logoUrl",
-                "type": "string"
-            },
-            {
-                "internalType": "address payable",
-                "name": "_owner",
-                "type": "address"
-            }
-        ],
-        "name": "createChannel",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -307,19 +320,6 @@ export const ABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_channelId",
-                "type": "uint256"
-            }
-        ],
-        "name": "subscribeChannel",
-        "outputs": [],
-        "stateMutability": "payable",
         "type": "function"
     }
 ]
