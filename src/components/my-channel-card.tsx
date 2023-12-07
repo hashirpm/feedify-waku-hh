@@ -71,10 +71,10 @@ export default function MyChannelCard(props: MyChannel) {
                     {Number(props.subscriptionAmount) / 1e18} $MATIC
                 </Text>
                 <Text color='blue.600' fontSize='sm'>
-                    Total Earnings:  {Number(props.totalSubscriptions) / 1e18} $MATIC
+                    Total Earnings:  {Number(props.totalSubscriptions)} $MATIC
                 </Text>
                 <Text color='blue.600' fontSize='sm'>
-                    Subscribers: {Number(props.totalSubscriptions) / 1e18}
+                    Subscribers: {Number(props.totalSubscriptions)}
                 </Text>
             </CardBody>
             <Divider />
