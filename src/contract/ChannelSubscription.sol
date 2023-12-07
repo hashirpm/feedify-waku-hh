@@ -18,10 +18,10 @@ contract ChannelSubscription {
     Channel[] public channels;
 
     // Mapping to track channels owned by each address
-    mapping(address => uint256[]) private channelsByOwner;
+    mapping(address => Channel[]) private channelsByOwner;
 
     // Mapping to track channels subscribed by each address
-    mapping(address => uint256[]) private channelsBySubscriber;
+    mapping(address => Channel[]) private channelsBySubscriber;
 
     // Event triggered when a new channel is created
     event ChannelCreated(
@@ -57,7 +57,7 @@ contract ChannelSubscription {
         });
 
         channels.push(newChannel);
-        channelsByOwner[msg.sender].push(channelId);
+        channelsByOwner[msg.sender].push(newChannel);
 
         emit ChannelCreated(channelId, _name, msg.sender);
     }
@@ -65,14 +65,14 @@ contract ChannelSubscription {
     // Function to get channels owned by a specific address
     function getChannelsByOwner(
         address _owner
-    ) external view returns (uint256[] memory) {
+    ) external view returns (Channel[] memory) {
         return channelsByOwner[_owner];
     }
 
     // Function to get channels subscribed by a specific address
     function getChannelsBySubscriber(
         address _subscriber
-    ) external view returns (uint256[] memory) {
+    ) external view returns (Channel[] memory) {
         return channelsBySubscriber[_subscriber];
     }
 
@@ -91,7 +91,14 @@ contract ChannelSubscription {
         channel.totalSubscriptions++;
         channel.earnings += msg.value;
 
+        channelsBySubscriber[msg.sender].push(channel);
+
         // Emit event
         emit ChannelSubscribed(_channelId, msg.sender);
+    }
+    
+     // Function to get details for all channels
+    function getAllChannels() external view returns (Channel[] memory) {
+        return channels;
     }
 }
